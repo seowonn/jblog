@@ -1,7 +1,9 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
+<%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%>
+<%@ taglib uri="jakarta.tags.functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!doctype html>
 <html>
 <head>
@@ -11,34 +13,24 @@
 </head>
 <body>
 	<div class="center-content">
-		<h1 class="logo">JBlog</h1>
-		<ul class="menu">
-			<li><a href="">로그인</a></li>
-			<li><a href="">회원가입</a></li>
-			<li><a href="">로그아웃</a></li>
-			<li><a href="">내블로그</a></li>
-		</ul>
-		<form class="join-form" id="join-form" method="post" action="">
-			<label class="block-label" for="name">이름</label>
-			<input id="name"name="name" type="text" value="">
+		<c:import url="/WEB-INF/views/includes/header.jsp"/>
+		<!-- modelAttribute를 get, post 다 넘겨줌으로써 userVo를 객체화해 전달한다. -->
+		<form:form
+			modelAttribute="userVo"
+			class="join-form"
+			id="join-form"
+			method="post"
+			action="${pageContext.request.contextPath }/user/join">
+			<label class="block-label" for="name"><spring:message code="user.join.label.name" /></label>
+			<form:input path="name" />
+			<p style="color:#f00; text-align:left; padding:0">
+				<form:errors path="name" />
+			</p>
 			
-			<label class="block-label" for="blog-id">아이디</label>
-			<input id="blog-id" name="id" type="text"> 
-			<input id="btn-checkemail" type="button" value="id 중복체크">
-			<img id="img-checkemail" style="display: none;" src="${pageContext.request.contextPath}/assets/images/check.png">
-
-			<label class="block-label" for="password">패스워드</label>
-			<input id="password" name="password" type="password" />
-
-			<fieldset>
-				<legend>약관동의</legend>
-				<input id="agree-prov" type="checkbox" name="agreeProv" value="y">
-				<label class="l-float">서비스 약관에 동의합니다.</label>
-			</fieldset>
-
 			<input type="submit" value="가입하기">
+		</form:form>
+		
 
-		</form>
 	</div>
 </body>
 </html>
