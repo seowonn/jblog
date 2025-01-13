@@ -59,14 +59,14 @@ $(function() {
 			action="${pageContext.request.contextPath }/user/join">
 			
 			<label class="block-label" for="name"><spring:message code="user.join.label.name" /></label>
-			<form:input path="name" />
+			<form:input path="name" type="text" />
 			<p style="color:#f00; text-align:left; padding:0">
 				<form:errors path="name" />
 			</p>
 			
 			<spring:message code="user.join.label.id.check" var="userJoinLabelIdCheck" />
 			<label class="block-label" for="blog-id"><spring:message code="user.join.label.id" /></label>
-			<form:input path="id" />
+			<form:input path="id" type="text" />
 			<input id="btn-checkemail" type="button" value="id ${userJoinLabelIdCheck }" style="display;" />
 			<img id="img-check" src="${pageContext.request.contextPath }/assets/images/check.png" style="vertical-align: bottom; width:24px; display: none" />
 			<p style="color:#f00; text-align:left; padding:0">
@@ -74,7 +74,7 @@ $(function() {
 			</p>
 			
 			<label class="block-label" for="password"><spring:message code="user.join.label.password" /></label>
-			<form:input path="password" />
+			<form:input path="password" type="password" />
 			<p style="color:#f00; text-align:left; padding:0">
 				<form:errors path="password" />
 			</p>

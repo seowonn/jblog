@@ -12,5 +12,12 @@
 	        )
 	    ]]>
 	</select>
+	
+	<insert id="insert" parameterType="uservo">
+		<![CDATA[
+			INSERT INTO user
+			VALUES (#{id}, #{name}, #{password})
+		]]>
+	</insert>
 
 </mapper>

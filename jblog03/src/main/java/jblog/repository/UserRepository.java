@@ -3,6 +3,8 @@ package jblog.repository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import jblog.vo.UserVo;
+
 @Repository
 public class UserRepository {
 	
@@ -14,6 +16,10 @@ public class UserRepository {
 
 	public boolean findById(String id) {
 		return sqlSession.selectOne("user.existsById", id);
+	}
+
+	public void addUser(UserVo userVo) {
+		sqlSession.insert("user.insert", userVo);
 	}
 
 }

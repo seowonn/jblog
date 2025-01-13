@@ -11,11 +11,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
+import jblog.service.UserService;
 import jblog.vo.UserVo;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	
+	private UserService userService;
+	
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
 
 	@GetMapping("/join")
 	public String join(@ModelAttribute UserVo userVo) {
@@ -30,7 +37,7 @@ public class UserController {
 			model.addAllAttributes(map);
 			return "user/join";
 		}
-		// userService.join();
+		userService.join(userVo);
 		return "redirect:/user/joinsuccess";
 	}
 	
