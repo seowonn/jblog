@@ -9,7 +9,43 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
-<Link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<script src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.9.0.js"></script>
+<script>
+$(function() {
+	$("#btn-checkemail").click(function() {
+		var email = $("#id").val();
+		if(email == "") {
+			return;
+		}
+		
+		$.ajax({
+			url: "${pageContext.request.contextPath}/api/user/checkemail?id=" + email,
+			type: "get",
+			dataType: "json",
+			success: function(response){
+				if(response.result != "success") {
+					console.error(response.message);
+					return;
+				}
+				
+				if(response.data.exist) {
+					alert("이메일이 존재합니다. 다른 이메일을 사용해 주세요.");
+					$("#id").val("");
+					$("#id").focus();
+					return;
+				}
+				
+				$("#img-check").show();
+				$("#btn-checkemail").hide();
+			},
+			error: function(xhr, status, err) {
+				console.error(err);
+			}
+		})
+	})
+})
+</script>
 </head>
 <body>
 	<div class="center-content">
@@ -21,13 +57,36 @@
 			id="join-form"
 			method="post"
 			action="${pageContext.request.contextPath }/user/join">
+			
 			<label class="block-label" for="name"><spring:message code="user.join.label.name" /></label>
 			<form:input path="name" />
 			<p style="color:#f00; text-align:left; padding:0">
 				<form:errors path="name" />
 			</p>
 			
-			<input type="submit" value="가입하기">
+			<spring:message code="user.join.label.id.check" var="userJoinLabelIdCheck" />
+			<label class="block-label" for="blog-id"><spring:message code="user.join.label.id" /></label>
+			<form:input path="id" />
+			<input id="btn-checkemail" type="button" value="id ${userJoinLabelIdCheck }" style="display;" />
+			<img id="img-check" src="${pageContext.request.contextPath }/assets/images/check.png" style="vertical-align: bottom; width:24px; display: none" />
+			<p style="color:#f00; text-align:left; padding:0">
+				<form:errors path="id" />
+			</p>
+			
+			<label class="block-label" for="password"><spring:message code="user.join.label.password" /></label>
+			<form:input path="password" />
+			<p style="color:#f00; text-align:left; padding:0">
+				<form:errors path="password" />
+			</p>
+			
+			<fieldset>
+				<legend><spring:message code="user.join.label.terms" /></legend>
+				<input id="agree-prov" type="checkbox" name="agreeProv" value="y" />
+				<label><spring:message code="user.join.label.terms.message" /></label>
+			</fieldset>
+			
+			<spring:message code="user.join.button.signup" var="userJoinButtonSignup"/>
+			<input type="submit" value="${userJoinButtonSignup }">
 		</form:form>
 		
 

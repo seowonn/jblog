@@ -1,16 +1,21 @@
 package jblog.vo;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 public class UserVo {
 	
+	@NotEmpty
+	@Email
 	private String id;
 	
 	@NotEmpty
 	@Size(min = 2, max = 8)
 	private String name;
 	
+	@NotEmpty
+	@Size(min = 4, max = 16)
 	private String password;
 	
 	public String getId() {
