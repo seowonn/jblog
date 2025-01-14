@@ -12,13 +12,7 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>Spring 이야기</h1>
-			<ul>
-				<li><a href="">로그인</a></li>
-				<li><a href="">로그아웃</a></li>
-				<li><a href="">블로그 관리</a></li>
-			</ul>
-		</div>
+		<c:import url="/WEB-INF/views/includes/blogHeader.jsp"/>
 		<div id="wrapper">
 			<div id="content" class="full-screen">
 				<ul class="admin-menu">
@@ -26,20 +20,21 @@
 					<li><a href="">카테고리</a></li>
 					<li><a href="">글작성</a></li>
 				</ul>
-				<form action="" method="post">
+				<form method="post" action="${pageContext.request.contextPath }/jblog/${blogVo.blogId }/admin/update" enctype="multipart/form-data">
 	 		      	<table class="admin-config">
 			      		<tr>
-			      			<td class="t">블로그 제목</td>
-			      			<td><input type="text" size="40" name="title"></td>
+			      			<td class="block-label" for="title">블로그 제목</td>
+			      			<td><input id="title" type="text" size="40" name="title" value="${blogVo.title }"></td>
 			      		</tr>
 			      		<tr>
-			      			<td class="t">로고이미지</td>
-			      			<td><img src="${pageContext.request.contextPath}/assets/images/spring-logo.jpg"></td>      			
+			      			<td class="block-label">로고이미지</td>
+			      			<td><img id="profile" src="${pageContext.request.contextPath }${blogVo.profile }"></td>    			
 			      		</tr>      		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>
-			      			<td><input type="file" name="logo-file"></td>      			
-			      		</tr>           		
+			      			<td><input type="file" name="file" value="${blogVo.profile }"></td>      			
+			      		</tr> 
+			      		<tr><td><input type="hidden" name="blogId" value="${blogVo.blogId}"></td><tr/>          		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>
 			      			<td class="s"><input type="submit" value="기본설정 변경"></td>      			

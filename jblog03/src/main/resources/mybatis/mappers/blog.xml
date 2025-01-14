@@ -9,5 +9,20 @@
 	        VALUES(#{blogId}, '제목을 설정해주세요', '사진')
 	    ]]>
 	</insert>
+	
+	<select id="findById" parameterType="string" resultType="blogvo">
+		<![CDATA[
+			SELECT blog_id as blogId, title, profile FROM blog
+			WHERE blog_id=#{blogId}
+		]]>
+	</select>
+	
+	<update id="update" parameterType="blogvo">
+		<![CDATA[
+			UPDATE blog 
+			SET title = #{title}, profile = #{profile}
+			WHERE blog_id = #{blogId}
+		]]>
+	</update>
 
 </mapper>

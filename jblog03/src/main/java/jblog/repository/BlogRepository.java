@@ -18,4 +18,12 @@ public class BlogRepository {
 		sqlSession.insert("blog.insert", blogVo);
 	}
 
+	public BlogVo findById(String blogId) {
+		return sqlSession.selectOne("blog.findById", blogId);
+	}
+	
+	public void update(BlogVo blogVo) {
+		sqlSession.update("blog.update", blogVo);
+	}
+
 }

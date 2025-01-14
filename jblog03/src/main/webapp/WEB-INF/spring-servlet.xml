@@ -43,13 +43,24 @@
 	          <value>messages/message</value>
 	       </list>
 	    </property>
-	</bean>	
+	</bean>
 	
-		<!-- Interceptors -->
+	<!-- mvc url-resource mapping -->
+	<mvc:resources mapping="/assets/upload-images/**" location="file:C:/PoscoDX_9기/jblog/jblog-uploads/"/>
+	
+	<!-- Multipart Resolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
+	
+	<!-- Interceptors -->
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/user/auth" />
 			<bean class="jblog.security.LoginInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/admin/**" />
+			<mvc:exclude-mapping path="/assets/**"/>
+			<bean class="jblog.interceptor.BlogInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
