@@ -1,6 +1,7 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
+<%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%>
+<%@ taglib uri="jakarta.tags.functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!doctype html>
 <html>
@@ -13,10 +14,19 @@
 <body>
 	<div class="center-content">
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
-		<form class="login-form">
-      		<label>아이디</label> <input type="text" name="id">
-      		<label>패스워드</label> <input type="text" name="password">
-      		<input type="submit" value="로그인">
+		<form class="login-form" name="loginform" method="post" action="${pageContext.request.contextPath}/user/auth">
+      		<label><spring:message code="user.signin.label.id" /></label>
+      		<input type="text" name="id" value="${not empty id ? id : ''}" >
+      		
+      		<label><spring:message code="user.signin.label.password" /></label>
+      		<input type="password" name="password">
+      		
+      		<c:if test='${result eq "fail"}'>
+				<p>로그인이 실패 했습니다.</p>
+			</c:if>
+      		
+      		<spring:message code="user.signin.button.text" var="userJoinButtonSignin"/>
+			<input type="submit" value="${userJoinButtonSignin }">
 		</form>
 	</div>
 </body>

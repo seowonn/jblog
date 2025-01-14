@@ -26,6 +26,10 @@ public class UserService {
 	public boolean getUser(String id) {
 		return userRepository.findById(id);
 	}
+	
+	public UserVo getUser(String email, String password) {
+		return userRepository.findByIdAndPassword(email, password);
+	}
 
 	@Transactional
 	public void join(UserVo userVo) {

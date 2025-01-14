@@ -14,13 +14,13 @@
 <script>
 $(function() {
 	$("#btn-checkemail").click(function() {
-		var email = $("#id").val();
-		if(email == "") {
+		var id = $("#id").val();
+		if(id == "") {
 			return;
 		}
 		
 		$.ajax({
-			url: "${pageContext.request.contextPath}/api/user/checkemail?id=" + email,
+			url: "${pageContext.request.contextPath}/api/user/checkId?id=" + id,
 			type: "get",
 			dataType: "json",
 			success: function(response){

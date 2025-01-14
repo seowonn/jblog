@@ -20,7 +20,7 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	@GetMapping("/checkemail")
+	@GetMapping("/checkId")
 	public JsonResult checkEmail(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
 		boolean user = userService.getUser(id);
 		return JsonResult.success(Map.of("exist", user));

@@ -46,4 +46,9 @@ public class UserController {
 		return "user/joinsuccess";
 	}
 	
+	@GetMapping("/login")
+	public String login(@ModelAttribute UserVo userVo) {
+		return "user/login";
+	}
+	
 }
