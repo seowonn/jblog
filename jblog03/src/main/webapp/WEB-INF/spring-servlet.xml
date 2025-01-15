@@ -58,9 +58,17 @@
 			<bean class="jblog.security.LoginInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
+			<mvc:mapping path="/user/logout" />
+			<bean class="jblog.security.LogoutInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
 			<mvc:mapping path="/**/admin/**" />
 			<mvc:exclude-mapping path="/assets/**"/>
 			<bean class="jblog.interceptor.BlogInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/jblog/admin/**" />
+			<bean class="jblog.security.AuthInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 	

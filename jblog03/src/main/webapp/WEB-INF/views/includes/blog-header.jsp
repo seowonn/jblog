@@ -17,7 +17,7 @@
 				<li><a href="${pageContext.request.contextPath }/user/login">로그인</a></li>
 			</c:when>
 			<c:otherwise>
-				<li><a href="">로그아웃</a></li>
+				<li><a href="${pageContext.request.contextPath }/user/logout">로그아웃</a></li>
 				<li><a href="${pageContext.request.contextPath }/jblog/${blogVo.blogId }/admin/basic">블로그 관리</a></li>
 			</c:otherwise>
 		</c:choose>
