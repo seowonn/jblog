@@ -30,6 +30,7 @@
 			      			<td class="t">&nbsp;</td>
 			      			<td><input type="file" name="file" value="${blogVo.profile }"></td>      			
 			      		</tr> 
+			      		<tr><td><input type="hidden" name="profile" value="${blogVo.profile }"></td></tr>
 			      		<tr><td><input type="hidden" name="blogId" value="${blogVo.blogId}"></td><tr/>          		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>
