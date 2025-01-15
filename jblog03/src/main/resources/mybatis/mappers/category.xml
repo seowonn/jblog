@@ -9,5 +9,13 @@
 	        VALUES(null, '기본 카테고리', null, #{blogId})
 	    ]]>
 	</insert>
+	
+	<select id="findByBlogId" parameterType="string" resultType="categoryvo">
+		<![CDATA[
+			SELECT id, name, description, blog_id as blogId
+			FROM category
+			WHERE blog_id = #{blogId}
+		]]>
+	</select>
 
 </mapper>

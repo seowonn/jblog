@@ -1,18 +1,23 @@
 package jblog.controller;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.ServletContext;
 import jblog.service.BlogService;
+import jblog.service.CategoryService;
 import jblog.service.FileUploadService;
 import jblog.vo.BlogVo;
+import jblog.vo.PostVo;
 
 @Controller
 // 정규 표현을 써서 ~ 가능
@@ -22,12 +27,14 @@ public class BlogController {
 	private final BlogService blogService;
 	private final FileUploadService fileUploadService;
 	private final ServletContext servletContext;
+	private final CategoryService categoryService;
 
 	public BlogController(BlogService blogService, FileUploadService fileUploadService,
-			ServletContext servletContext) {
+			ServletContext servletContext, CategoryService categoryService) {
 		this.blogService = blogService;
 		this.fileUploadService = fileUploadService;
 		this.servletContext = servletContext;
+		this.categoryService = categoryService;
 	}
 
 	// 같은 컨트롤러를 써야 하는 경로가 여러개일 때 {}를 사용한다.
@@ -63,20 +70,42 @@ public class BlogController {
 //	@Auth // 애는 url의 이름을 떼와서 조회하고 role? 검사해서 거르기 
 	@RequestMapping("/admin/basic")
 	public String adminDefault(@PathVariable("id") String blogId, Model model) {
+		model.addAttribute("menu", "basic");
 		return "blog/admin-basic";
 	}
 
 	@RequestMapping("/admin/update")
-	public String update(@PathVariable("id") String blogId, BlogVo blogVo, @RequestParam("file") MultipartFile multipartFile) {
+	public String update(@PathVariable("id") String blogId, BlogVo blogVo,
+			@RequestParam("file") MultipartFile multipartFile) {
 		String profile = fileUploadService.restore(multipartFile);
-		if(profile != null) {
+		if (profile != null) {
 			blogVo.setProfile(profile);
 		}
-		
+
 		blogService.updateBlog(blogVo);
 		servletContext.setAttribute("blogVo", blogVo);
 
 		return "redirect:/jblog/" + blogVo.getBlogId();
+	}
+
+	@RequestMapping("/admin/write")
+	public String getWriteForm(@PathVariable("id") String blogId, Model model) {
+		model.addAttribute("menu", "write");
+		List<Map<String, Object>> categories = categoryService.getCategories(blogId);
+		model.addAttribute("category", categories);
+		return "blog/admin-write";
+	}
+
+	@RequestMapping("/admin/category")
+	public String getCategoryPage(@PathVariable("id") String blogId, Model model) {
+		model.addAttribute("menu", "category");
+		return "blog/admin-category";
+	}
+
+	@PostMapping("/admin/write")
+	public String addPost(@PathVariable("id") String blogId, PostVo postVo, Model model) {
+		blogService.addPost(postVo);
+		return "redirect:/jblog/" + blogId;
 	}
 
 }
