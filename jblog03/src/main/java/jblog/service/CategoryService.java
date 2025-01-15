@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import jblog.dto.CategoryWithPostCountDto;
 import jblog.repository.CategoryRepository;
 import jblog.vo.CategoryVo;
 
@@ -30,6 +31,18 @@ public class CategoryService {
 			result.add(map);
 		}
 		return result;
+	}
+
+	public List<CategoryWithPostCountDto> getCategoriesWithBlogCnt(String blogId) {
+		return categoryRepository.getCategories(blogId);
+	}
+
+	public void addCategory(CategoryVo categoryVo) {
+		categoryRepository.insert(categoryVo);
+	}
+
+	public void deleteCategory(int categoryId) {
+		categoryRepository.deleteById(categoryId);
 	}
 
 }

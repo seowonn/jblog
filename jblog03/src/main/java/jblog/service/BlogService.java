@@ -1,6 +1,7 @@
 package jblog.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jblog.repository.BlogRepository;
 import jblog.repository.PostRepository;
@@ -26,6 +27,7 @@ public class BlogService {
 		blogRepository.update(blogVo);
 	}
 
+	@Transactional
 	public void addPost(PostVo postVo) {
 		postRepository.addPost(postVo);
 	}

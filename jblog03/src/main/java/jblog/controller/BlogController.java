@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.ServletContext;
+import jblog.dto.CategoryWithPostCountDto;
 import jblog.service.BlogService;
 import jblog.service.CategoryService;
 import jblog.service.FileUploadService;
 import jblog.vo.BlogVo;
+import jblog.vo.CategoryVo;
 import jblog.vo.PostVo;
 
 @Controller
@@ -96,16 +98,35 @@ public class BlogController {
 		return "blog/admin-write";
 	}
 
-	@RequestMapping("/admin/category")
-	public String getCategoryPage(@PathVariable("id") String blogId, Model model) {
-		model.addAttribute("menu", "category");
-		return "blog/admin-category";
-	}
-
 	@PostMapping("/admin/write")
 	public String addPost(@PathVariable("id") String blogId, PostVo postVo, Model model) {
 		blogService.addPost(postVo);
 		return "redirect:/jblog/" + blogId;
+	}
+
+	@RequestMapping("/admin/category")
+	public String getCategoryPage(@PathVariable("id") String blogId, Model model) {
+		model.addAttribute("menu", "category");
+		List<CategoryWithPostCountDto> list = categoryService
+				.getCategoriesWithBlogCnt(blogId);
+		model.addAttribute("data", list);
+		return "blog/admin-category";
+	}
+
+	@PostMapping("/admin/category/add")
+	public String addCategory(@PathVariable("id") String blogId, CategoryVo categoryVo) {
+		categoryVo.setBlogId(blogId);
+		categoryService.addCategory(categoryVo);
+
+		// 브라우저에게 새로운 GET 요청을 보내도록 redirect 사용
+		return "redirect:/jblog/" + blogId + "/admin/category";
+	}
+
+	@RequestMapping("/admin/category/delete")
+	public String deleteCategory(@PathVariable("id") String blogId,
+			@RequestParam("category-id") int categoryId) {
+		categoryService.deleteCategory(categoryId);
+		return "redirect:/jblog/" + blogId + "/admin/category";
 	}
 
 }

@@ -23,44 +23,46 @@
 		      			<th>설명</th>
 		      			<th>삭제</th>      			
 		      		</tr>
-					<tr>
-						<td>3</td>
-						<td>미분류</td>
-						<td>10</td>
-						<td>카테고리를 지정하지 않은 경우</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>  
-					<tr>
-						<td>2</td>
-						<td>스프링 스터디</td>
-						<td>20</td>
-						<td>어쩌구 저쩌구</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>스프링 프로젝트</td>
-						<td>15</td>
-						<td>어쩌구 저쩌구</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>					  
+		      		<c:set var="startNumber" value="${data.size() }" /> <!-- 이거 조회된 총 카테고리 수 -->
+					<c:forEach items="${data }" var="dto" varStatus="status" >
+						<tr>
+							<td>${startNumber-status.index }</td>
+							<td>${dto.name }</td>
+							<td>${dto.count }</td>
+							<td>${dto.description }</td>
+							<td>
+							    <a href="${pageContext.request.contextPath}/jblog/${authUser.id}/admin/category/delete?category-id=${dto.id}">
+							        <img src="${pageContext.request.contextPath}/assets/images/delete.jpg" alt="삭제">
+							    </a>
+							</td>
+						</tr>
+					</c:forEach>			  
 				</table>
       	
-      			<h4 class="n-c">새로운 카테고리 추가</h4>
-		      	<table id="admin-cat-add">
-		      		<tr>
-		      			<td class="t">카테고리명</td>
-		      			<td><input type="text" name="name"></td>
-		      		</tr>
-		      		<tr>
-		      			<td class="t">설명</td>
-		      			<td><input type="text" name="desc"></td>
-		      		</tr>
-		      		<tr>
-		      			<td class="s">&nbsp;</td>
-		      			<td><input type="submit" value="카테고리 추가"></td>
-		      		</tr>      		      		
-		      	</table> 
+      			<form class="category-form" method="post" 
+      					action="${pageContext.request.contextPath}/jblog/${authUser.id }/admin/category/add">
+	      			<h4 class="n-c">새로운 카테고리 추가</h4>
+			      	<table id="admin-cat-add">
+			      		<tr>
+			      			<td class="t">카테고리명</td>
+			      			<td><input type="text" name="name"></td>
+			      		</tr>
+			      		<tr>
+			      			<td class="t">설명</td>
+			      			<td><input type="text" name="description"></td>
+			      		</tr>
+			      		<!-- ~id랑 지금 명이 겹쳐서 같이 인식돼서 임의로 0 넣고 있음.. -->
+			      		<tr>
+				            <td colspan="2">
+				                <input type="hidden" name="id" value="0">
+				            </td>
+				        </tr>
+			      		<tr>
+			      			<td class="s">&nbsp;</td>
+			      			<td><input type="submit" value="카테고리 추가"></td>
+			      		</tr>      		      		
+			      	</table>
+		      	</form>
 			</div>
 		</div>
 		<div id="footer">

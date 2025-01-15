@@ -6,6 +6,7 @@
 		<typeAlias type="jblog.vo.BlogVo" alias="blogvo"></typeAlias>
 		<typeAlias type="jblog.vo.CategoryVo" alias="categoryvo"></typeAlias>
 		<typeAlias type="jblog.vo.PostVo" alias="postvo"></typeAlias>
+		<typeAlias type="jblog.dto.CategoryWithPostCountDto" alias="categorywithpostcountdto"></typeAlias>
 	 </typeAliases>
 	 
 	<mappers>

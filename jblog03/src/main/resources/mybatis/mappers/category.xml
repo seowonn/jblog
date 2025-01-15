@@ -3,10 +3,10 @@
 
 <mapper namespace="category">
 	
-	<insert id="insertDefaultCategory" parameterType="string" >
+	<insert id="insert" parameterType="categoryvo" >
 	    <![CDATA[
 	        INSERT INTO category
-	        VALUES(null, '기본 카테고리', null, #{blogId})
+	        VALUES(null, #{name}, #{description}, #{blogId})
 	    ]]>
 	</insert>
 	
@@ -17,5 +17,22 @@
 			WHERE blog_id = #{blogId}
 		]]>
 	</select>
+	
+	<select id="findCategoryWithBlogCountsByBlogId" parameterType="string" 
+	resultType="categorywithpostcountdto">
+		<![CDATA[
+			SELECT c.id, c.name, c.blog_id, count(c.id) AS count, c.description
+			FROM category c
+			LEFT JOIN post p ON c.id = p.category_id WHERE c.blog_id = #{blogId}
+			GROUP BY c.id
+			ORDER BY p.reg_date DESC;
+		]]>
+	</select>
+	
+	<delete id="deleteById" parameterType="int">
+		<![CDATA[
+			DELETE FROM category WHERE id=#{id}
+		]]>
+	</delete>
 
 </mapper>

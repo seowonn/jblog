@@ -7,6 +7,7 @@ import jblog.repository.BlogRepository;
 import jblog.repository.CategoryRepository;
 import jblog.repository.UserRepository;
 import jblog.vo.BlogVo;
+import jblog.vo.CategoryVo;
 import jblog.vo.UserVo;
 
 @Service
@@ -34,10 +35,16 @@ public class UserService {
 	@Transactional
 	public void join(UserVo userVo) {
 		userRepository.addUser(userVo);
+		
 		BlogVo blogVo = new BlogVo();
 		blogVo.setBlogId(userVo.getId());
 		blogRepository.addBlog(blogVo);
-		categoryRepository.addDefaultCategory(userVo.getId());
+		
+		CategoryVo categoryVo = new CategoryVo();
+		categoryVo.setBlogId(userVo.getId());
+		categoryVo.setDescription("기본 카테고리");
+		categoryVo.setName("기본 카테고리");
+		categoryRepository.insert(categoryVo);
 	}
 
 }
