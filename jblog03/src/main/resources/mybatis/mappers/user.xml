@@ -3,13 +3,11 @@
 
 <mapper namespace="user">
 	
-	<select id="existsById" parameterType="string" resultType="boolean">
+	<select id="findById" parameterType="string" resultType="uservo">
 	    <![CDATA[
-	        select exists (
-	            select 1
-	            from user
-	            where id = #{id}
-	        )
+            SELECT id, name, password
+            FROM user
+            WHERE id = #{id}
 	    ]]>
 	</select>
 	

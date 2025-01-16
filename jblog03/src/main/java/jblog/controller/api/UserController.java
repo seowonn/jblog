@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jblog.dto.JsonResult;
 import jblog.service.UserService;
+import jblog.vo.UserVo;
 
 @RestController("userApiController")
 @RequestMapping("/api/user")
@@ -22,8 +23,8 @@ public class UserController {
 	
 	@GetMapping("/checkId")
 	public JsonResult checkEmail(@RequestParam(value = "id", required = true, defaultValue = "") String id) {
-		boolean user = userService.getUser(id);
-		return JsonResult.success(Map.of("exist", user));
+		UserVo user = userService.getUser(id);
+		return JsonResult.success(Map.of("exist", user != null));
 	}
 	
 }

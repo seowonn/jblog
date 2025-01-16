@@ -24,7 +24,7 @@ public class UserService {
 		this.categoryRepository = categoryRepository;
 	}
 
-	public boolean getUser(String id) {
+	public UserVo getUser(String id) {
 		return userRepository.findById(id);
 	}
 	

@@ -67,7 +67,7 @@
 			<bean class="jblog.interceptor.BlogInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
-			<mvc:mapping path="/jblog/admin/**" />
+			<mvc:mapping path="/jblog/**/admin/**" />
 			<bean class="jblog.security.AuthInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

@@ -16,8 +16,8 @@ public class UserRepository {
 		this.sqlSession = sqlSession;
 	}
 
-	public boolean findById(String id) {
-		return sqlSession.selectOne("user.existsById", id);
+	public UserVo findById(String id) {
+		return sqlSession.selectOne("user.findById", id);
 	}
 
 	public void addUser(UserVo userVo) {
