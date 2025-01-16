@@ -21,7 +21,7 @@
 	<select id="findCategoryWithBlogCountsByBlogId" parameterType="string" 
 	resultType="categorywithpostcountdto">
 		<![CDATA[
-			SELECT c.id, c.name, c.blog_id, count(c.id) AS count, c.description
+			SELECT c.id, c.name, c.blog_id, count(p.id) AS count, c.description
 			FROM category c
 			LEFT JOIN post p ON c.id = p.category_id WHERE c.blog_id = #{blogId}
 			GROUP BY c.id

@@ -17,5 +17,9 @@ public class PostRepository {
 	public void addPost(PostVo postVo) {
 		sqlSession.insert("post.insert", postVo);
 	}
+
+	public void deletePostByCategoryId(int categoryId) {
+		sqlSession.delete("post.deleteByCategoryId", categoryId);
+	}
 	
 }

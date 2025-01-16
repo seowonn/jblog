@@ -6,18 +6,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jblog.dto.CategoryWithPostCountDto;
 import jblog.repository.CategoryRepository;
+import jblog.repository.PostRepository;
 import jblog.vo.CategoryVo;
 
 @Service
 public class CategoryService {
 
 	private CategoryRepository categoryRepository;
+	private PostRepository postRepository;
 
-	public CategoryService(CategoryRepository categoryRepository) {
+	public CategoryService(CategoryRepository categoryRepository, PostRepository postRepository) {
 		this.categoryRepository = categoryRepository;
+		this.postRepository = postRepository;
 	}
 
 	public List<Map<String, Object>> getCategories(String blogId) {
@@ -41,7 +45,9 @@ public class CategoryService {
 		categoryRepository.insert(categoryVo);
 	}
 
+	@Transactional
 	public void deleteCategory(int categoryId) {
+		postRepository.deletePostByCategoryId(categoryId);
 		categoryRepository.deleteById(categoryId);
 	}
 

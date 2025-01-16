@@ -9,5 +9,12 @@
 	        VALUES(null, #{contents}, now(), #{categoryId}, #{title})
 	    ]]>
 	</insert>
+	
+	<delete id="deleteByCategoryid" parameterType="int">
+		<![CDATA[
+			DELETE FROM post
+			WHERE category_id=#{categoryId}
+		]]>
+	</delete>
 
 </mapper>
