@@ -16,5 +16,23 @@
 			WHERE category_id=#{categoryId}
 		]]>
 	</delete>
+	
+	<select id="findByBlogId" parameterType="map" resultType="postvo">
+		<![CDATA[
+			SELECT p.id AS postId, p.contents, p.reg_date AS regDate, 
+			p.category_id AS categoryId, p.title
+			FROM post p JOIN category c ON c.id = p.category_id 
+			WHERE c.blog_id = #{blogId} AND p.category_id = #{categoryId}
+		]]>
+	</select>
+	
+	<select id="findByBlogCategoryPostId" parameterType="map" resultType="postvo">
+		<![CDATA[
+			SELECT p.id AS postId, p.contents, p.reg_date AS regDate, 
+			p.category_id AS categoryId, p.title
+			FROM post p JOIN category c ON c.id = p.category_id 
+			WHERE c.blog_id = #{blogId} AND p.category_id = #{categoryId} AND p.id = #{postId}
+		]]>
+	</select>
 
 </mapper>

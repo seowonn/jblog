@@ -17,41 +17,43 @@ import jblog.dto.CategoryWithPostCountDto;
 import jblog.service.BlogService;
 import jblog.service.CategoryService;
 import jblog.service.FileUploadService;
+import jblog.service.PostService;
 import jblog.vo.BlogVo;
 import jblog.vo.CategoryVo;
 import jblog.vo.PostVo;
 
 @Controller
-// 정규 표현을 써서 ~ 가능
-@RequestMapping("/jblog/{id:(?!assets).*}")
+@RequestMapping("/jblog/{id:(?!assets).*}") // 정규식 사용
 public class BlogController {
 
 	private final BlogService blogService;
 	private final FileUploadService fileUploadService;
 	private final ServletContext servletContext;
 	private final CategoryService categoryService;
+	private final PostService postService;
 
 	public BlogController(BlogService blogService, FileUploadService fileUploadService,
-			ServletContext servletContext, CategoryService categoryService) {
+			ServletContext servletContext, CategoryService categoryService,
+			PostService postService) {
 		this.blogService = blogService;
 		this.fileUploadService = fileUploadService;
 		this.servletContext = servletContext;
 		this.categoryService = categoryService;
+		this.postService = postService;
 	}
 
 	// 같은 컨트롤러를 써야 하는 경로가 여러개일 때 {}를 사용한다.
 	@RequestMapping({ "", "/{path1}", "/{path1}/{path2}" })
 	public String index(@PathVariable("id") String blogId,
-			@PathVariable("path1") Optional<Long> path1,
-			@PathVariable("path2") Optional<Long> path2, Model model) {
+			@PathVariable("path1") Optional<Integer> path1,
+			@PathVariable("path2") Optional<Integer> path2, Model model) {
 
-		Long categoryId = 0L;
-		Long postId = 0L;
+		int categoryId = 1, postId = 0;
 		if (path2.isPresent()) {
 			categoryId = path1.get();
 			postId = path2.get();
 		} else if (path1.isPresent()) {
-			postId = path1.get();
+			categoryId = path1.get();
 		}
 
 		if ("main".equals(blogId)) {
@@ -61,15 +63,18 @@ public class BlogController {
 		BlogVo blogVo = blogService.getUserBlog(blogId);
 		model.addAttribute("blogVo", blogVo);
 
-		// categoryId == 0L -> 기본 카테고리 id를 찾아서 대입해준다. (default categoryId)
-		// postId == 0L -> default postId set 마찬가지
+		List<PostVo> postList = postService.getUserPost(blogId, categoryId);
+		PostVo selectedPost = postService.getSinglePost(blogId, categoryId, postId);
+		model.addAttribute("postVo", postList);
+		model.addAttribute("post", selectedPost);
 
-		System.out.println(
-				"BlogController.main(" + blogId + ", " + categoryId + ", " + postId);
+		List<CategoryWithPostCountDto> list = categoryService
+				.getCategoriesWithBlogCnt(blogId);
+		model.addAttribute("data", list);
+
 		return "blog/main";
 	}
 
-//	@Auth // 애는 url의 이름을 떼와서 조회하고 role? 검사해서 거르기 
 	@RequestMapping("/admin/basic")
 	public String adminDefault(@PathVariable("id") String blogId, Model model) {
 		model.addAttribute("menu", "basic");
@@ -100,7 +105,7 @@ public class BlogController {
 
 	@PostMapping("/admin/write")
 	public String addPost(@PathVariable("id") String blogId, PostVo postVo, Model model) {
-		blogService.addPost(postVo);
+		postService.addPost(postVo);
 		return "redirect:/jblog/" + blogId;
 	}
 
