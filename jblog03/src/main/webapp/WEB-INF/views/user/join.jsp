@@ -30,7 +30,7 @@ $(function() {
 				}
 				
 				if(response.data.exist) {
-					alert("이메일이 존재합니다. 다른 이메일을 사용해 주세요.");
+					alert("이메일이 존재합니다. 다른 아이디를 사용해 주세요.");
 					$("#id").val("");
 					$("#id").focus();
 					return;

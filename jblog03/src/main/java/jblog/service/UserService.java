@@ -16,6 +16,8 @@ public class UserService {
 	private UserRepository userRepository;
 	private BlogRepository blogRepository;
 	private CategoryRepository categoryRepository;
+	
+	private final String defaultImg = "/assets/upload-images/defaultImage";
 
 	public UserService(UserRepository userRepository, BlogRepository blogRepository,
 			CategoryRepository categoryRepository) {
@@ -38,6 +40,7 @@ public class UserService {
 		
 		BlogVo blogVo = new BlogVo();
 		blogVo.setBlogId(userVo.getId());
+		blogVo.setProfile(defaultImg);
 		blogRepository.addBlog(blogVo);
 		
 		CategoryVo categoryVo = new CategoryVo();

@@ -6,7 +6,7 @@
 	<insert id="insert" parameterType="blogvo" >
 	    <![CDATA[
 	        INSERT INTO blog
-	        VALUES(#{blogId}, '제목을 설정해주세요', '사진')
+	        VALUES(#{blogId}, '제목을 설정해주세요', #{profile})
 	    ]]>
 	</insert>
 	

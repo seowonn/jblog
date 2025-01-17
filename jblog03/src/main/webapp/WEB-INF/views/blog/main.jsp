@@ -19,7 +19,7 @@
 					<c:choose>
 						<c:when test="${empty authUser or empty post }">
 							<h4>Post 기본 설정 제목</h4>
-							<p>포스트를 작성해보세요.<p>
+							<p>로그인 후 포스트를 작성해보세요.<p>
 						</c:when>
 						<c:otherwise>
 							<c:if test="${not empty post }">							
@@ -39,7 +39,9 @@
 
 		<div id="extra">
 			<div class="blog-logo">
-				<img src="${pageContext.request.contextPath }${blogVo.profile }">
+				<c:if test="${not empty authUser and not empty blogVo}">
+					<img src="${pageContext.request.contextPath }${blogVo.profile }">
+				</c:if>
 			</div>
 		</div>
 
