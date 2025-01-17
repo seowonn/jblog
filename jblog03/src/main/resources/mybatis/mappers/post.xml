@@ -10,7 +10,7 @@
 	    ]]>
 	</insert>
 	
-	<delete id="deleteByCategoryid" parameterType="int">
+	<delete id="deleteByCategoryId" parameterType="int">
 		<![CDATA[
 			DELETE FROM post
 			WHERE category_id=#{categoryId}
