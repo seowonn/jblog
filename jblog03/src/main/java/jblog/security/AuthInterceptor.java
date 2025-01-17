@@ -28,11 +28,11 @@ public class AuthInterceptor implements HandlerInterceptor {
 		if(pathParts.length > 2 && pathParts[3].length() > 0) {
 			UserVo user = userService.getUser(pathParts[3]);
 			if(!user.getId().equals(authUser.getId())) {
-				request.getRequestDispatcher("/WEB-INF/views/errors/400.jsp").forward(request, response);
+				response.sendRedirect(request.getContextPath() + "/main");
 		        return false;
 			}
 		} else {
-			request.getRequestDispatcher("/WEB-INF/views/errors/400.jsp").forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/main");
 	        return false;
 		}
 		
